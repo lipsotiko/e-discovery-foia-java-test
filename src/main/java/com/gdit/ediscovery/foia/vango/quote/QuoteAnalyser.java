@@ -30,16 +30,19 @@ public class QuoteAnalyser {
   }
 
   public Iterable<Quote> analyse(Iterable<Quote> quotes) {
-    for (Quote q : quotes) {
-      String[] sentences = languageProcessor.getSentences(q.getQuoteText());
-      String[] tokens = languageProcessor.getTokens(q.getQuoteText());
-      String[] taggedPos = languageProcessor.tagPartsOfSpeech(tokens, tokens);
-
-      q.setWordCounts(countTokens(tokens, requiredWordCountsConfiguration.getWords()));
-      q.setQuoteMissingSentence3and5(removeSentencesAtIndex(sentences, 2, 4));
-      q.setPosCounts(countPartsOfSpeech(tokens, taggedPos));
-    }
+    quotes.forEach(this::analyse);
     return quotes;
+  }
+
+  public Quote analyse(Quote quote) {
+    String[] sentences = languageProcessor.getSentences(quote.getQuoteText());
+    String[] tokens = languageProcessor.getTokens(quote.getQuoteText());
+    String[] taggedPos = languageProcessor.tagPartsOfSpeech(tokens, tokens);
+
+    quote.setWordCounts(countTokens(tokens, requiredWordCountsConfiguration.getWords()));
+    quote.setQuoteMissingSentence3and5(removeSentencesAtIndex(sentences, 2, 4));
+    quote.setPosCounts(countPartsOfSpeech(tokens, taggedPos));
+    return quote;
   }
 
   private String removeSentencesAtIndex(String[] sentences, int... indices) {

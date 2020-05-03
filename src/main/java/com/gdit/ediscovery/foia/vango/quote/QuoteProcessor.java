@@ -18,4 +18,8 @@ public class QuoteProcessor {
     quoteRepository.saveAll(quoteAnalyser.analyse(quotes));
   }
 
+  public Quote process(Quote quote) {
+    return quoteRepository.save(quoteAnalyser.analyse(quote));
+  }
+
 }

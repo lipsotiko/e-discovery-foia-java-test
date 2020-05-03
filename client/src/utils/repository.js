@@ -8,4 +8,11 @@ export default class Repository {
       page: quotesResponse.data.page
     }
   }
+
+  async _addQuote (quoteText) {
+    const quotesResponse = await axios.put('/quote/add', {
+      quoteText
+    })
+    return quotesResponse.data
+  }
 }
